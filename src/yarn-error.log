@@ -1,0 +1,27 @@
+Arguments: 
+  /opt/node/bin/node /usr/share/yarn/bin/yarn.js add lodash
+
+PATH: 
+  /home/adam/bin:/home/adam/npm-global/bin:/usr/local/bin:/home/adam/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  0.18.1
+
+Node version: 
+  6.9.1
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/home/adam/projects/node/screeps-web-client/src/node_modules/lodash'
+      at Error (native)
