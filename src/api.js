@@ -154,7 +154,7 @@ class ScreepsAPI extends EventEmitter {
         this.emit('message', msg)
     })
     ws.on('open', () => {
-      send('gzip on')
+      // send('gzip on')
       send(`auth ${this.token}`)
       cb()
     })

@@ -1,2 +1,3 @@
 src/auth.*
 node_modules
+src/game.js

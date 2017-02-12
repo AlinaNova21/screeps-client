@@ -1,3 +1,7 @@
+require('./ui')
+
+// const angular = require('angular')
+
 const Game = require('./engine/Game')
 const RoomObjectSystem = require('./engine/systems/RoomObjectSystem')
 
@@ -25,9 +29,28 @@ let rom = window.rom = new RoomObjectManager(game)
 game.renderer.resize(50*TILE_SIZE,50*TILE_SIZE)
 
 // let SockJS = require('sockjs-client')
-let roomObjects = {}
 let ScreepsAPI = require('./api')
 
+
+// const app = angular.module('game',[])
+
+// app.factory('game',function(){
+//   return new GameManager()
+// })
+
+class GameManager {
+  constructor(){
+
+  }
+  connect(config){
+    window.api = new ScreepsAPI(require('./auth'))
+
+  }
+  startGame(){
+    this.roomObjects = {}
+    
+  }
+}
 let api = window.api = new ScreepsAPI(require('./auth'))
 /* auth.js
 module.exports = {
@@ -59,6 +82,7 @@ api.on('room',(msg)=>{
     // console.log(v.x,v.y)
     rom.createObject(k,v)
   })
+  rom.setVisual(data.visual || '')
 })
 
 window.setRoom = startRoom

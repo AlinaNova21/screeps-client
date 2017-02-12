@@ -26,6 +26,8 @@ class RoomObjectManager {
     let ent = new Entity(this.game)
     let texture = this.renderer.getTexture(obj)
     let g = new PIXI.Sprite(texture)
+    g.anchor.x = 0.25
+    g.anchor.y = 0.25
     this.cont.addChild(g)
     let ro = new RoomObject({ obj })
     ent.addComponent(ro)
@@ -64,6 +66,15 @@ class RoomObjectManager {
     ent.addComponent(new Position({x:0,y:0}))
     this.game.addEntity(ent)
     this.roomObjects['terrain'] = { id: 'terrain', g, ent }
+  }
+  setVisual(rawvisual){
+    let texture =  this.renderer.renderVisuals(rawvisual)
+    if(this.visualSprite)
+      this.visualSprite.setTexture(texture)
+    else{
+      this.visualSprite = new PIXI.Sprite(texture)
+      this.game.stage.addChild(this.visualSprite)
+    }
   }
   createTerrainTexture(data){
     let canvas = document.createElement('canvas')
