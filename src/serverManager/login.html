@@ -1,0 +1,17 @@
+<div>
+	<h2>Login</h2>
+	<form>
+		<select ng-options="server as server.name for server in login.storage.servers" ng-model="login.server">
+			<option value="">Select a server</option>
+		</select>
+		<div>
+			<label>Username:</label>
+			<input type="text" ng-model="login.server.username">
+		</div>
+		<div>
+			<label>Password:</label>
+			<input type="password">
+		</div>
+		<button ng-click="login.login()">Login</button>
+	</form>
+</div>

@@ -1,0 +1,14 @@
+<div>
+	<h2>Servers</h2>
+	<table>
+		<tr ng-repeat="server in list.storage.servers">
+			<td>{{ server.name }}</td>
+			<td>{{ server.url }}</td>
+			<td>{{ server.status }}</td>
+			<td><button ui-sref="edit(server.name)"">Edit</button></td>
+			<td><button ng-click="list.remove(server)">Remove</button></td>
+			<td><pre>{{ server | json }}</pre></td>
+		</tr>
+	</table>
+	<button ui-sref="edit">New</button>
+</div>

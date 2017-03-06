@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron src/electron",
-    "watch": "watchify src/main.js -o src/game.js",
-    "build": "browserify src/main.js -o src/game.js"
+    "start": "node_modules/.bin/electron src/electron",
+    "watch": "node_modules/.bin/watchify src/main.js -o src/game.js",
+    "build": "node_modules/.bin/browserify src/main.js -o src/game.js"
   },
   "author": "",
   "license": "ISC",
