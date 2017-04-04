@@ -22,6 +22,7 @@
     "pako": "^1.0.4",
     "pixi.js": "^4.3.4",
     "request": "^2.78.0",
+    "screeps-api": "screepers/node-screeps-api#v1.0",
     "watchify": "^3.9.0"
   }
 }

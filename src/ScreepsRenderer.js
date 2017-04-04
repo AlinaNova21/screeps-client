@@ -193,6 +193,7 @@ class RoomVisual {
   }
 
   applyStyle(style){
+    if(!style) return
     let ctx = this.ctx
     ctx.fillStyle = style.color || style.fill || '#ffffff'
     ctx.globalAlpha = style.opacity || 0.5
@@ -205,7 +206,6 @@ class RoomVisual {
     }
     let fs = style.fontSize || 0.5
     ctx.font = `${fs * TILE_SIZE * 2}pt sans-serif`
-    console.log(ctx.strokeStyle)
   }
 
   text(text,x,y,style){

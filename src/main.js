@@ -13,8 +13,8 @@ const RoomObjectManager = require('./RoomObjectManager')
 
 const TILE_SIZE = 32
 
-const ROOM = location.hash.slice(1) || 'W8N3'
-// const ROOM = location.hash.slice(1) || 'W3N35'
+// const ROOM = location.hash.slice(1) || 'W8N3'
+const ROOM = location.hash.slice(1) || 'E3N31'
 let currentRoom = ''
 
 const _ = require('lodash')
@@ -29,7 +29,8 @@ let rom = window.rom = new RoomObjectManager(game)
 game.renderer.resize(50*TILE_SIZE,50*TILE_SIZE)
 
 // let SockJS = require('sockjs-client')
-let ScreepsAPI = require('./api')
+// let ScreepsAPI = require('./api')
+let ScreepsAPI = require('screeps-api')
 
 
 // const app = angular.module('game',[])
@@ -51,7 +52,7 @@ class GameManager {
     
   }
 }
-let api = window.api = new ScreepsAPI(require('./auth'))
+let api = window.api = new ScreepsAPI()
 /* auth.js
 module.exports = {
   prefix: location.origin, // Leave out for Private Server
@@ -60,29 +61,38 @@ module.exports = {
 }
 */
 
-api.socket(()=>{})
+let socketEvents = ['connected','disconnected','message','auth','time','protocol','package','subscribe','unsubscribe','console']
+socketEvents.forEach(ev=>{
+  api.socket.on(ev,(data)=>{
+    console.log(ev,data)
+  })
+})
 
+let auth = require('./auth')
+console.log(auth)
+api.auth(auth.email,auth.password)
 api.on('auth',()=>{
-  console.log('authed')
-  startRoom(ROOM)
+  api.socket.connect()
 })
 
-api.on('message',(msg)=>{
-  console.log('msg',msg)
+api.socket.on('auth',(event)=>{
+  if(event.data.status == 'ok'){
+    console.log('authed')
+    startRoom(ROOM)
+  }
 })
 
-api.on('room',(msg)=>{
-  // console.log('room',msg)
-  let [room,data] = msg
-  if(room != `room:${currentRoom}`) return
-  _.each(data.objects,(v,k)=>{
+api.socket.on('room',(event)=>{
+  console.log('room',event)
+  if(event.id != currentRoom) return
+  _.each(event.data.objects,(v,k)=>{
     if(v === null) return rom.destroyObject(k)
     if(v.x) v.x *= TILE_SIZE
     if(v.y) v.y *= TILE_SIZE
     // console.log(v.x,v.y)
     rom.createObject(k,v)
   })
-  rom.setVisual(data.visual || '')
+  rom.setVisual(event.data.visual || '')
 })
 
 window.setRoom = startRoom
@@ -93,11 +103,10 @@ rom.resize(size,size)
 function startRoom(room){
   location.hash = '#'+room
   rom.destroyAll()
-  api.unsubscribe(`room:${currentRoom}`)
+  api.socket.unsubscribe(`room:${currentRoom}`)
   currentRoom = room
-  api.subscribe(`room:${room}`)
-  api.req('GET','/api/game/room-terrain',{ encoded: 'true', room: currentRoom })
-    .then(data=>data.body)
+  api.socket.subscribe(`room:${room}`)
+  api.raw.game.roomTerrain(currentRoom,true)
     .then(data=>data.terrain)
     .then(terrain=>{
       let room = terrain.find(t=>t.room == currentRoom)
