@@ -1,5 +1,8 @@
 # screeps-client
 
+# NOTE: This project is half abandoned, I'm now primarily using https://github.com/ricochet1k/screeps-client instead
+
+
 to setup
   `npm install`
 
